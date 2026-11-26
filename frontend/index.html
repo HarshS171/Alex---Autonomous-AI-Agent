@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadPilot AI — Voice Sales Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">LP</div>
+                    <span class="logo-text">LeadPilot AI</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-view="chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Chat
+                </button>
+                <button class="nav-btn" data-view="voice">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                    Voice
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="session-info">
+                    <span class="session-label">Session</span>
+                    <span class="session-id" id="sessionId">—</span>
+                </div>
+                <button class="btn-reset" id="btnNewSession" title="New session">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    New Session
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="agent-avatar">
+                        <div class="avatar-ring">
+                            <div class="avatar-inner">A</div>
+                        </div>
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="agent-info">
+                        <h1>Alex</h1>
+                        <p>AI Sales Representative</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <span class="connection-badge" id="connectionStatus">
+                        <span class="badge-dot"></span>
+                        Connected
+                    </span>
+                </div>
+            </header>
+
+            <!-- Chat View -->
+            <div class="view-container active" id="chatView">
+                <div class="messages-container" id="messagesContainer">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">👋</div>
+                        <h2>Welcome to LeadPilot AI</h2>
+                        <p>I'm Alex, your AI sales assistant. Ask me anything about LeadPilot's sales automation solutions!</p>
+                        <div class="quick-actions">
+                            <button class="quick-btn" onclick="sendQuickMessage('What does LeadPilot do?')">What does LeadPilot do?</button>
+                            <button class="quick-btn" onclick="sendQuickMessage('I want to automate my sales')">Automate my sales</button>
+                            <button class="quick-btn" onclick="sendQuickMessage('Can I book a demo?')">Book a demo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <textarea id="chatInput" placeholder="Type your message to Alex..." rows="1"></textarea>
+                        <button class="btn-send" id="btnSend" title="Send message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voice View -->
+            <div class="view-container" id="voiceView">
+                <div class="voice-interface">
+                    <div class="voice-visualizer" id="voiceVisualizer">
+                        <div class="vis-ring ring-1"></div>
+                        <div class="vis-ring ring-2"></div>
+                        <div class="vis-ring ring-3"></div>
+                        <div class="vis-center">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="voice-status" id="voiceStatus">Click the microphone to start speaking</p>
+                    <div class="voice-controls">
+                        <button class="btn-voice" id="btnVoice" title="Hold to speak">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="voice-transcript" id="voiceTranscript">
+                        <div class="transcript-placeholder">Your conversation will appear here</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
